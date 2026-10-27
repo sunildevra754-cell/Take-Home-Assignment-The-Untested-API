@@ -75,10 +75,16 @@ const completeTask = (id) => {
   return updated;
 };
 
+const assignTask = (id, assignee) => {
+  const task = findById(id);
+  if (!task) return null;
+  task.assignee = assignee.trim();
+  return task;
+};
+
 const _reset = () => {
   tasks = [];
 };
-
 module.exports = {
   getAll,
   findById,
@@ -89,5 +95,5 @@ module.exports = {
   update,
   remove,
   completeTask,
-  _reset,
+  assignTask,
 };

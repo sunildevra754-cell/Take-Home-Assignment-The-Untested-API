@@ -68,5 +68,21 @@ router.patch('/:id/complete', (req, res) => {
 
   res.json(task);
 });
+router.patch('/:id/assign', (req, res) => {
+  const assignee = req.body && req.body.assignee;
 
+  if (typeof assignee !== 'string' || assignee.trim().length === 0) {
+    return res.status(400).json({ error: 'assignee must be a non-empty string' });
+  }
+  if (assignee.trim().length > 100) {
+    return res.status(400).json({ error: 'assignee must be at most 100 characters' });
+  }
+
+  const task = taskService.assignTask(req.params.id, assignee);
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  res.json(task);
+});
 module.exports = router;
